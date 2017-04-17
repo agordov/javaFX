@@ -19,10 +19,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class TextButton extends Application{
+public class InputChecker extends Application{
+
+    private String inputLine;
 
     public static void main(String[] args) {
         launch(args);
@@ -62,7 +62,7 @@ public class TextButton extends Application{
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 2, 1);
 
-        final Text output = new Text();
+        Text output = new Text();
         output.setText("Here will be your text");
         grid.add(output, 1, 2, 2, 1);
         output.setFill(Color.DARKGREEN);
@@ -70,7 +70,7 @@ public class TextButton extends Application{
         Label errors = new Label("Errors:");
         grid.add(errors, 0, 3);
 
-        final Text errorsOutput = new Text();
+        Text errorsOutput = new Text();
         errorsOutput.setText("");
         errorsOutput.setFill(Color.RED);
         grid.add(errorsOutput, 1, 3, 2, 1);
@@ -79,7 +79,9 @@ public class TextButton extends Application{
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    checkInputSetOutput(userTextField, output);
+                    if (checkInput(userTextField)) {
+                        setOutput(output);
+                    }
                 } catch (RuntimeException e) {
                     printException(e, errorsOutput);
                 }
@@ -90,41 +92,24 @@ public class TextButton extends Application{
 
     private static final String DIGITS = "[0-9]";
 
-    private void checkInputSetOutput(TextField textField, Text output) throws RuntimeException{
-        String str = textField.getText();
-        if (Objects.isNull(str)) {
+    private void setOutput(Text output) {
+        output.setText(inputLine);
+    }
+
+    private boolean checkInput(TextField textField) {
+        inputLine = textField.getText();
+        if (Objects.isNull(inputLine)) {
             throw new NullPointerException("Null string");
         }
-        if (str.isEmpty()) {
+        if (inputLine.isEmpty()) {
             throw new RuntimeException("Empty string");
         }
-        if (!containSymbols(str, DIGITS)) {
-            output.setText(str);
-        }
+        StringChecker strCheck = new StringChecker(DIGITS);
+        return !strCheck.containSymbols(DIGITS);
     }
 
     private void printException(RuntimeException e, Text output) {
         output.setText(e.getMessage());
-    }
-
-    private static final String SEPARATOR = " ";
-
-    private boolean containSymbols(String str, String symbols) throws RuntimeException{
-        boolean flag = str.matches(String.format(".*%s.*", symbols));
-        if (flag) {
-            throw new RuntimeException("Contains symbols: " + getSymbols(str, symbols));
-        }
-        return false;
-    }
-
-    private String getSymbols(String str, String symbols) {
-        Pattern p = Pattern.compile(symbols);
-        Matcher m = p.matcher(str);
-        String matched = "";
-        while (m.find()) {
-            matched += (m.group() + SEPARATOR);
-        }
-        return matched;
     }
 
 }
