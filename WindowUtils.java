@@ -1,56 +1,17 @@
 package javaFx;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import static javaFx.Constants.*;
+
 public class WindowUtils {
-
-    private static final Pos DEFAULT_POS = Pos.CENTER;
-    private static final int DEFAULT_HGAP = 10;
-    private static final int DEFAULT_VGAP = 10;
-    private static final int DEFAULT_TOPPAD = 25;
-    private static final int DEFAULT_RIGHTPAD = 25;
-    private static final int DEFAULT_BOTPAD = 25;
-    private static final int DEFAULT_LEFTPAD = 25;
-    private static final int DEFAULT_WIDTH = 640;
-    private static final int DEFAULT_HEIGHT = 480;
-    private static final String DEFAULT_FONT = "Tahoma";
-    private static final FontWeight DEFAULT_WEIGHT = FontWeight.NORMAL;
-    private static final double DEFAULT_SIZE = 14;
-    private static final double DEFAULT_SPACING = 10;
-    private static final Color DEFAULT_COLOR = Color.BLACK;
-
-    public static GridPane createGridPane(Pos pos, int hGap, int vGap, int topPad, int rightPad, int bottomPad, int leftPad) {
-        GridPane grid = new GridPane();
-        grid.setAlignment(pos);
-        grid.setHgap(hGap);
-        grid.setVgap(vGap);
-        grid.setPadding(new Insets(topPad, rightPad, bottomPad, leftPad));
-        return grid;
-    }
-
-    public static GridPane createGridPane() {
-        return createGridPane(DEFAULT_POS, DEFAULT_HGAP, DEFAULT_VGAP, DEFAULT_TOPPAD, DEFAULT_RIGHTPAD, DEFAULT_BOTPAD, DEFAULT_LEFTPAD);
-    }
-
-    public static Scene createScene(Parent root, int width, int height) {
-        return new Scene(root, width, height);
-    }
-
-    public static Scene createScene(Parent root) {
-        return createScene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
 
     public static Text createText(String str, String font, FontWeight weight, double size, Color color) {
         Text text = new Text();
@@ -86,7 +47,6 @@ public class WindowUtils {
     public static HBox createHBox(Button btn, double spacing, Pos pos) {
         HBox hBox = new HBox(spacing);
         hBox.setAlignment(pos);
-        hBox.getChildren().add(btn);
         return hBox;
     }
 

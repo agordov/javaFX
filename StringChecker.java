@@ -3,30 +3,32 @@ package javaFx;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class StringChecker {
+public class StringChecker {
 
-    private String line;
+    private static String line;
     private static final String DEFAULT_SEPARATOR = " ";
+    private static String SEPARATOR;
+
+    StringChecker(String str, String separator) {
+        line = str;
+        SEPARATOR = separator;
+    }
 
     StringChecker(String str) {
-        this.line = str;
+        new StringChecker(str, DEFAULT_SEPARATOR);
     }
 
-    boolean containSymbols(String symbols) {
-        boolean flag = line.matches(String.format(".*%s.*", symbols));
-        if (flag) {
-            throw new RuntimeException("Contains symbols: " + getSymbols(symbols));
-        }
-        return false;
+    public boolean containSymbols(String symbols) {
+        return line.matches(String.format(".*%s.*", symbols));
     }
 
-    private String getSymbols(String symbols) {
+    public String getSymbols(String symbols) {
+        StringBuilder matched = new StringBuilder();
         Pattern p = Pattern.compile(symbols);
         Matcher m = p.matcher(line);
-        String matched = "";
         while (m.find()) {
-            matched += (m.group() + DEFAULT_SEPARATOR);
+            matched.append(String.format("%s", m.group() + SEPARATOR));
         }
-        return matched;
+        return matched.toString();
     }
 }
