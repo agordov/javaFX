@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 class StringChecker {
 
     private String line;
-    private static final String SEPARATOR = " ";
+    private static final String DEFAULT_SEPARATOR = " ";
 
     StringChecker(String str) {
         this.line = str;
@@ -25,7 +25,7 @@ class StringChecker {
         Matcher m = p.matcher(line);
         String matched = "";
         while (m.find()) {
-            matched += (m.group() + SEPARATOR);
+            matched += (m.group() + DEFAULT_SEPARATOR);
         }
         return matched;
     }

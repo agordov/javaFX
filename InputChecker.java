@@ -3,7 +3,6 @@ package javaFx;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,8 +12,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -32,47 +29,38 @@ public class InputChecker extends Application{
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Text&Numbers");
 
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        GridPane grid = WindowUtils.createGridPane();
 
-        Text sceneTitle = new Text("Welcome");
-        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        Text sceneTitle = WindowUtils.createText("Welcome");
+
         StackPane stackPane = new StackPane();
         stackPane.setAlignment(Pos.CENTER);
         stackPane.getChildren().add(sceneTitle);
         grid.add(stackPane, 0, 0, 3, 1);
-        Label userText = new Label("Enter your text:");
+
+        Label userText = WindowUtils.createLabel("Enter your text:");
         grid.add(userText, 0, 1);
 
-        Label text = new Label("Your text:");
+        Label text = WindowUtils.createLabel("Your text:");
         grid.add(text, 0, 2);
+
         TextField userTextField = new TextField();
         grid.add(userTextField, 1, 1);
 
-        Scene scene = new Scene(grid, 640, 480);
+        Scene scene = WindowUtils.createScene(grid);
         primaryStage.setScene(scene);
 
-        Button btn = new Button("Press me");
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
-        hbBtn.getChildren().add(btn);
+        Button btn = new Button("Check digits");
+        HBox hbBtn = WindowUtils.createHBox(btn, 10, Pos.BOTTOM_RIGHT);
         grid.add(hbBtn, 2, 1);
 
-        Text output = new Text();
-        output.setText("Here will be your text");
+        Text output = WindowUtils.createText("Here will be your text", Color.DARKGREEN);
         grid.add(output, 1, 2, 2, 1);
-        output.setFill(Color.DARKGREEN);
 
-        Label errors = new Label("Errors:");
+        Label errors = WindowUtils.createLabel("Errors:");
         grid.add(errors, 0, 3);
 
-        Text errorsOutput = new Text();
-        errorsOutput.setText("");
-        errorsOutput.setFill(Color.RED);
+        Text errorsOutput = WindowUtils.createText("", Color.RED);
         grid.add(errorsOutput, 1, 3, 2, 1);
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -104,7 +92,7 @@ public class InputChecker extends Application{
         if (inputLine.isEmpty()) {
             throw new RuntimeException("Empty string");
         }
-        StringChecker strCheck = new StringChecker(DIGITS);
+        StringChecker strCheck = new StringChecker(inputLine);
         return !strCheck.containSymbols(DIGITS);
     }
 
